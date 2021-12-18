@@ -1,11 +1,11 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
+import store from './store'
 
 const app = createApp(App)
 
-// 注册vue-router插件
 app.use(router)
+app.use(store)
 
-// 挂载dom
 app.mount('#app')
