@@ -32,7 +32,7 @@ class JFWRequest {
     injectGlobalInterceptors.call(this)
   }
 
-  request<T>(config: JFWRequestConfig): Promise<T> {
+  request<T>(config: JFWRequestConfig<T>): Promise<T> {
     return new Promise((resolve, reject) => {
       // 单次请求的请求成功拦截
       if (config.interceptors?.requestInterceptors) {
@@ -57,6 +57,22 @@ class JFWRequest {
           reject(err)
         })
     })
+  }
+
+  get<T>(config: JFWRequestConfig<T>): Promise<T> {
+    return this.request({ ...config, method: 'GET' })
+  }
+
+  post<T>(config: JFWRequestConfig<T>): Promise<T> {
+    return this.request({ ...config, method: 'POST' })
+  }
+
+  patch<T>(config: JFWRequestConfig<T>): Promise<T> {
+    return this.request({ ...config, method: 'PATCH' })
+  }
+
+  delete<T>(config: JFWRequestConfig<T>): Promise<T> {
+    return this.request({ ...config, method: 'DELETE' })
   }
 }
 

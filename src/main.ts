@@ -21,17 +21,20 @@ type DataType = {
   returnCode: string
   success: boolean
 }
-jfwRequest.request<DataType>({
-  url: '/home/multidata',
-  method: 'GET',
-  interceptors: {
-    requestInterceptors: (config) => {
-      console.log(`---单次请求: 请求拦截成功`)
-      return config
-    },
-    responseInterceptors: (res) => {
-      console.log(`---单次请求: 响应拦截成功`)
-      return res
+jfwRequest
+  .get<DataType>({
+    url: '/home/multidata',
+    interceptors: {
+      requestInterceptors: (config) => {
+        console.log(`---单次请求: 请求拦截成功`)
+        return config
+      },
+      responseInterceptors: (res) => {
+        console.log(`---单次请求: 响应拦截成功`)
+        return res
+      }
     }
-  }
-})
+  })
+  .then((res) => {
+    console.log(`---res get: `, res)
+  })
