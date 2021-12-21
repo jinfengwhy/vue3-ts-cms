@@ -6,6 +6,13 @@ const jfwRequest = new JFWRequest({
   timeout: TIME_OUT,
   interceptors: {
     requestInterceptors: (config) => {
+      // 模拟token
+      const token = 'why'
+      if (!config.headers) {
+        config.headers = {}
+      }
+      config.headers.authorization = token
+
       console.log(`---单个实例: 请求拦截成功`)
       return config
     },
@@ -25,14 +32,14 @@ const jfwRequest = new JFWRequest({
 })
 
 // 测试代码
-const jfwRequest2 = new JFWRequest({
-  baseURL: BASE_URL
-})
-setTimeout(() => {
-  jfwRequest2.request({
-    url: '/home/multidata',
-    method: 'GET'
-  })
-}, 3 * 1000)
+// const jfwRequest2 = new JFWRequest({
+//   baseURL: BASE_URL
+// })
+// setTimeout(() => {
+//   jfwRequest2.request({
+//     url: '/home/multidata',
+//     method: 'GET'
+//   })
+// }, 3 * 1000)
 
 export default jfwRequest

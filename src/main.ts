@@ -16,7 +16,12 @@ app.use(store)
 app.mount('#app')
 
 // 测试代码：
-jfwRequest.request({
+type DataType = {
+  data: any
+  returnCode: string
+  success: boolean
+}
+jfwRequest.request<DataType>({
   url: '/home/multidata',
   method: 'GET',
   interceptors: {
