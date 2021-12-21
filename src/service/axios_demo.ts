@@ -76,10 +76,10 @@ axios
   })
 
 // 6.axios的拦截器
-// 6.1.请求拦截器
+// 6.1.请求拦截器（对于请求拦截而言，后添加的拦截器先触发）
 axios.interceptors.request.use(
   (config) => {
-    console.log(`---请求被拦截了：`, config)
+    console.log(`---请求被拦截了111：`, config)
     return config
   },
   (err) => {
@@ -87,10 +87,30 @@ axios.interceptors.request.use(
     return err
   }
 )
-// 6.2.响应拦截器
+axios.interceptors.request.use(
+  (config) => {
+    console.log(`---请求被拦截了222：`, config)
+    return config
+  },
+  (err) => {
+    console.log(`---请求发送失败`)
+    return err
+  }
+)
+// 6.2.响应拦截器（对于响应而言，先添加的拦截器先触发）
 axios.interceptors.response.use(
   (data) => {
-    console.log(`---响应被拦截了`, data)
+    console.log(`---响应被拦截了111`, data)
+    return data
+  },
+  (err) => {
+    console.log(`---服务器响应失败`)
+    return err
+  }
+)
+axios.interceptors.response.use(
+  (data) => {
+    console.log(`---响应被拦截了222`, data)
     return data
   },
   (err) => {

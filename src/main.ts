@@ -1,8 +1,8 @@
 import { createApp } from 'vue'
 import { globalRegister } from './global'
 
-import './service/axios_demo'
-import { BASE_URL, BASE_NAME } from './service/request/config'
+// import './service/axios_demo'
+import jfwRequest from './service'
 
 import App from './App.vue'
 
@@ -16,6 +16,17 @@ app.use(store)
 app.mount('#app')
 
 // 测试代码：
-console.log(`---BASE_URL: `, BASE_URL)
-console.log(`---BASE_NAME: `, BASE_NAME)
-console.log(`---BASE LINE: `, process.env.VUE_APP_BASE_LINE)
+jfwRequest.request({
+  url: '/home/multidata',
+  method: 'GET',
+  interceptors: {
+    requestInterceptors: (config) => {
+      console.log(`---单次请求: 请求拦截成功`)
+      return config
+    },
+    responseInterceptors: (res) => {
+      console.log(`---单次请求: 响应拦截成功`)
+      return res
+    }
+  }
+})

@@ -1,9 +1,10 @@
 let BASE_URL = ''
 let BASE_NAME = ''
+const TIME_OUT = 10000
 
 // process.env.NODE_ENV的值通过webpack内置插件definePlugin自动注入
 if (process.env.NODE_ENV === 'development') {
-  BASE_URL = 'http://www.why.org/dev'
+  BASE_URL = 'http://123.207.32.32:8000'
   BASE_NAME = 'why'
 } else if (process.env.NODE_ENV === 'production') {
   BASE_URL = 'http://www.why.org/prod'
@@ -13,4 +14,4 @@ if (process.env.NODE_ENV === 'development') {
   BASE_NAME = 'test'
 }
 
-export { BASE_URL, BASE_NAME }
+export { BASE_URL, BASE_NAME, TIME_OUT }
