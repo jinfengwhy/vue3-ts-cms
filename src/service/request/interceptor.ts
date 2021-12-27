@@ -31,14 +31,12 @@ export function injectGlobalInterceptors(this: JFWRequest): void {
   this.instance.interceptors.response.use(
     (res) => {
       if (this.isShowLoading) {
-        setTimeout(() => {
-          loadingInstance.close()
-        }, 2 * 1000)
+        loadingInstance.close()
       }
       const status = res.status
       switch (status) {
         case 200: {
-          console.log(`---status: 200`)
+          // console.log(`---status: 200`)
           break
         }
         case 403: {

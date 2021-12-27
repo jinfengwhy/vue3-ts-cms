@@ -1,3 +1,5 @@
+import localCache from '@/utils/cache'
+
 import JFWRequest from './request'
 import { BASE_URL, TIME_OUT } from './request/config'
 
@@ -6,26 +8,22 @@ const jfwRequest = new JFWRequest({
   timeout: TIME_OUT,
   interceptors: {
     requestInterceptors: (config) => {
-      // 模拟token
-      const token = 'why'
+      // 携带token
+      const token = localCache.getItem('token') ?? ''
       if (!config.headers) {
         config.headers = {}
       }
       config.headers.authorization = token
 
-      console.log(`---单个实例: 请求拦截成功`)
       return config
     },
     requestInterceptorsCatch: (err) => {
-      console.log(`---单个实例: 请求拦截失败`)
       return err
     },
     responseInterceptors: (res) => {
-      console.log(`---单个实例: 响应拦截成功`)
       return res
     },
     responseInterceptorsCatch: (err) => {
-      console.log(`---单个实例: 响应拦截失败`)
       return err
     }
   }

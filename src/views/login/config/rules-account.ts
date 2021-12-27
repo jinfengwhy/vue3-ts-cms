@@ -1,5 +1,5 @@
 export const rules = {
-  number: [
+  name: [
     { required: true, message: '账号不能为空', trigger: 'blur' },
     {
       pattern: /^[a-zA-Z0-9]{6,8}/,
