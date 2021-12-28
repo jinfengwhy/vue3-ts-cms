@@ -1,9 +1,9 @@
-import { createStore } from 'vuex'
+import { createStore, Store, useStore as useStoreVuex } from 'vuex'
 
 import login from './login/login'
-import { IRootSate } from './type'
+import { IRootState, IStateType } from './type'
 
-const store = createStore<IRootSate>({
+const store = createStore<IRootState>({
   state() {
     return {
       counter: 100
@@ -22,6 +22,11 @@ const store = createStore<IRootSate>({
 // 将缓存中的信息加载到vuex中
 export function setupStore(): void {
   store.dispatch('login/loadLoginAction')
+}
+
+// 定义自己的useStore函数
+export function useStore(): Store<IStateType> {
+  return useStoreVuex()
 }
 
 export default store

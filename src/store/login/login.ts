@@ -5,9 +5,9 @@ import localCache from '@/utils/cache'
 import router from '@/router'
 import { IUserInfo } from '@/service/login/type'
 import { ILoginState } from './type'
-import { IRootSate } from '../type'
+import { IRootState } from '../type'
 
-const loginMoudle: Module<ILoginState, IRootSate> = {
+const loginMoudle: Module<ILoginState, IRootState> = {
   namespaced: true,
   state() {
     return {
