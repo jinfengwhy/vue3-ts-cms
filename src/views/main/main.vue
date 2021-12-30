@@ -9,7 +9,6 @@
           <nav-header @fold-change="handleFoldChange" />
         </el-header>
         <el-main class="page-content">
-          <div class="haha">哈哈哈</div>
           <router-view></router-view>
         </el-main>
       </el-container>
@@ -20,6 +19,7 @@
 <script lang="ts">
 import { defineComponent, ref, computed } from 'vue'
 
+import { IS_MENU_FOLD_DEFAULT } from '@/constants'
 import NavMenu from '@/components/nav-menu'
 import NavHeader from '@/components/nav-header'
 
@@ -29,7 +29,7 @@ export default defineComponent({
     NavHeader
   },
   setup() {
-    const collapse = ref(false)
+    const collapse = ref(IS_MENU_FOLD_DEFAULT)
     const asideWidth = computed(() => (collapse.value ? '64px' : '210px'))
     const handleFoldChange = (isFold: boolean) => {
       collapse.value = isFold

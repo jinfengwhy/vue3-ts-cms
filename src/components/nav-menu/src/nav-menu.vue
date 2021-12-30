@@ -49,12 +49,13 @@
 import { defineComponent, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useStore } from '@/store'
+import { IS_MENU_FOLD_DEFAULT } from '@/constants'
 
 export default defineComponent({
   props: {
     collapse: {
       type: Boolean,
-      default: false
+      default: IS_MENU_FOLD_DEFAULT
     }
   },
   setup() {
