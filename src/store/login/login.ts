@@ -2,6 +2,7 @@ import { Module } from 'vuex'
 
 import { userLoginReq, userInfoReq, userMenusReq } from '@/service/login/login'
 import localCache from '@/utils/cache'
+import { mapMenusToRoutes } from '@/utils/map-menus'
 import router from '@/router'
 import { IUserInfo } from '@/service/login/type'
 import { ILoginState } from './type'
@@ -23,8 +24,14 @@ const loginMoudle: Module<ILoginState, IRootState> = {
     changeUserInfo(state, payload: any) {
       state.userInfo = payload
     },
-    changeUserMenus(state, payload: Array<any>) {
-      state.userMenus = payload
+    changeUserMenus(state, userMenus: Array<any>) {
+      state.userMenus = userMenus
+
+      // 1.通过userMenus去生成routes
+      const routes = mapMenusToRoutes(userMenus)
+
+      // 2.将routes遍历添加到router（注意：main为/main这条顶层路由的name属性）
+      routes.forEach((route) => router.addRoute('main', route))
     }
   },
   actions: {

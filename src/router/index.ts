@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 import type { RouteRecordRaw } from 'vue-router'
 
 import localCache from '@/utils/cache'
@@ -13,13 +13,28 @@ const routes: RouteRecordRaw[] = [
     component: () => import('views/login/login.vue')
   },
   {
+    name: 'main',
     path: '/main',
-    component: () => import('views/main/main.vue')
+    component: () => import('views/main/main.vue'),
+    children: [
+      {
+        path: 'system/user',
+        component: () => import('views/main/system/user/user.vue')
+      },
+      {
+        path: 'system/role',
+        component: () => import('views/main/system/role/role.vue')
+      }
+    ]
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    component: () => import('views/not-found/not-found.vue')
   }
 ]
 const router = createRouter({
   routes,
-  history: createWebHistory()
+  history: createWebHashHistory()
 })
 
 router.beforeEach((to) => {
