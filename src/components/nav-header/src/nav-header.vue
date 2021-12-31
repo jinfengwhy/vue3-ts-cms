@@ -6,22 +6,28 @@
       @click="handleFoldClick"
     ></i>
     <div class="content">
-      <div>面包屑</div>
+      <nav-breadcrumber :breadcrumbs="breadcrumbs" />
       <user-info />
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { defineComponent, computed, ref } from 'vue'
+import { useRoute } from 'vue-router'
 
+import { useStore } from '@/store'
 import { IS_MENU_FOLD_DEFAULT } from '@/constants'
+import { pathMapBreadcrumb } from '@/utils/map-menus'
+import NavBreadcrumber from '@/base-ui/breadcrumb'
+
 import UserInfo from './user-info.vue'
 
 export default defineComponent({
   emits: ['foldChange'],
   components: {
-    UserInfo
+    UserInfo,
+    NavBreadcrumber
   },
   setup(_props, { emit }) {
     const isFold = ref(IS_MENU_FOLD_DEFAULT)
@@ -30,8 +36,17 @@ export default defineComponent({
       emit('foldChange', isFold.value)
     }
 
+    // 为了让面包屑在路由发生变化时也随之响应，因此放到计算属性中
+    const store = useStore()
+    const route = useRoute()
+    const breadcrumbs = computed(() => {
+      const userMenus = store.state.login.userMenus
+      return pathMapBreadcrumb(userMenus, route.path)
+    })
+
     return {
       isFold,
+      breadcrumbs,
       handleFoldClick
     }
   }
