@@ -7,6 +7,7 @@ import {
   ElBreadcrumbItem,
   ElButton,
   ElCheckbox,
+  ElCol,
   ElContainer,
   ElDatePicker,
   ElDropdown,
@@ -22,6 +23,7 @@ import {
   ElMenuItem,
   ElMenuItemGroup,
   ElOption,
+  ElRow,
   ElSelect,
   ElSubmenu,
   ElTabPane,
@@ -53,7 +55,9 @@ const components = [
   ElOption,
   ElDatePicker,
   ElBreadcrumb,
-  ElBreadcrumbItem
+  ElBreadcrumbItem,
+  ElRow,
+  ElCol
 ]
 
 export default function (app: App): void {
