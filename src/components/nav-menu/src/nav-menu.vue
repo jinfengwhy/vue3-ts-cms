@@ -70,7 +70,7 @@ export default defineComponent({
 
     // data
     const findMenu = pathMapMenu(userMenus.value, route.path)
-    const defaultActiveMenuId = findMenu ? findMenu.id : ref(2)
+    const defaultActiveMenuId = findMenu ? findMenu.id + '' : ref('2')
 
     // event handler
     const handleMenuItemClick = (item: any) => {
