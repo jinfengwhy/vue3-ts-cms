@@ -18,6 +18,7 @@
 import { defineComponent, ref } from 'vue'
 
 import DynamicForm from '@/base-ui/form'
+import formConfig from '@/views/main/system/role/config/search.config'
 
 export default defineComponent({
   components: {
@@ -30,13 +31,11 @@ export default defineComponent({
     }
   },
   setup() {
-    const formData = ref({
-      id: '',
-      name: '',
-      password: '',
-      hobbies: '',
-      createdAt: ''
-    })
+    const initialFormData: any = {}
+    for (const item of formConfig.formItems) {
+      initialFormData[item.field] = ''
+    }
+    const formData = ref(initialFormData)
 
     return {
       formData

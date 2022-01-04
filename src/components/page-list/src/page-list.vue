@@ -1,13 +1,8 @@
 <template>
   <div class="page-list">
-    <flexible-table
-      :tableData="tableData"
-      :propList="listConfig"
-      :isShowIndexColumn="false"
-      :isShowSelectionColumn="false"
-    >
+    <flexible-table :tableData="tableData" v-bind="listConfig">
       <template #header-title>
-        <span class="title">用户列表</span>
+        <span class="title">{{ listConfig.title }}</span>
       </template>
       <template #header-btns>
         <el-button size="medium" type="primary">新增用户</el-button>
