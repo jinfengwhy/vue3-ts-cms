@@ -1,5 +1,6 @@
 import jfwRequest from '..'
-import { IUserInfo, IUserResult, IDataType } from './type'
+import { IUserInfo, IUserResult } from './type'
+import { IDataType } from '../type'
 
 enum LoginAPI {
   USER_LOGIN = '/login',
