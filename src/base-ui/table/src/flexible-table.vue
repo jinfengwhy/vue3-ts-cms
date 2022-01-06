@@ -39,16 +39,16 @@
     </el-table>
     <div class="footer">
       <slot name="footer">
-        分页器代码
-        <!-- <el-pagination
-          :page-sizes="[100, 200, 300, 400]"
-          :page-size="100"
+        <el-pagination
+          :page-sizes="[10, 20, 30]"
+          :page-size="page.pageSize"
+          :current-page="page.currentPage"
           layout="total, sizes, prev, pager, next, jumper"
-          :total="400"
+          :total="totalCount"
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
         >
-        </el-pagination> -->
+        </el-pagination>
       </slot>
     </div>
   </div>
@@ -74,10 +74,35 @@ export default defineComponent({
     isShowSelectionColumn: {
       type: Boolean,
       default: false
+    },
+    totalCount: {
+      type: Number,
+      default: 100
+    },
+    page: {
+      type: Object,
+      default: () => ({ currentPage: 0, pageSize: 0 })
     }
   },
-  setup() {
-    return {}
+  emits: ['update:page'],
+  setup(props, { emit }) {
+    const handleSizeChange = (pageSize: number) => {
+      emit('update:page', {
+        ...props.page,
+        pageSize
+      })
+    }
+    const handleCurrentChange = (currentPage: number) => {
+      emit('update:page', {
+        ...props.page,
+        currentPage
+      })
+    }
+
+    return {
+      handleSizeChange,
+      handleCurrentChange
+    }
   }
 })
 </script>

@@ -1,6 +1,11 @@
 <template>
   <div class="page-list">
-    <flexible-table :tableData="tableData" v-bind="listConfig">
+    <flexible-table
+      :tableData="tableData"
+      v-bind="listConfig"
+      :totalCount="totalCount"
+      v-model:page="pageInfo"
+    >
       <template #header-title>
         <span class="title">{{ listConfig.title }}</span>
       </template>
@@ -29,7 +34,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue'
+import { defineComponent, ref, computed, watch } from 'vue'
 
 import { useStore } from '@/store'
 import { FlexibleTable } from '@/base-ui'
@@ -51,13 +56,22 @@ export default defineComponent({
   setup(props) {
     const store = useStore()
 
+    // 双向绑定pageInfo
+    const pageInfo = ref({
+      currentPage: 1,
+      pageSize: 10
+    })
+    watch(pageInfo, () => {
+      getListAction()
+    })
+
     // 抽取一个请求数据的方法
     const getListAction = (queryParams = {}) => {
       store.dispatch('system/pageListAction', {
         pageName: props.pageName,
         queryInfo: {
-          offset: 0,
-          size: 10,
+          offset: (pageInfo.value.currentPage - 1) * pageInfo.value.pageSize,
+          size: pageInfo.value.pageSize,
           ...queryParams
         }
       })
@@ -68,10 +82,15 @@ export default defineComponent({
     const tableData = computed(() =>
       store.getters[`system/tableList`](props.pageName)
     )
+    const totalCount = computed(() =>
+      store.getters[`system/totalCount`](props.pageName)
+    )
 
     return {
       getListAction,
-      tableData
+      tableData,
+      totalCount,
+      pageInfo
     }
   }
 })

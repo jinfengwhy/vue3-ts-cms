@@ -18,14 +18,23 @@ const system: Module<ISystemState, IRootState> = {
   getters: {
     tableList(state) {
       return (pageName: string) => (state as any)[`${pageName}List`]
+    },
+    totalCount(state) {
+      return (pageName: string) => (state as any)[`${pageName}Count`]
     }
   },
   mutations: {
-    changeUsersList(state, payload) {
-      state.usersList = payload
+    changeUsersList(state, usersList) {
+      state.usersList = usersList
+    },
+    changeUsersCount(state, count) {
+      state.usersCount = count
     },
     changeRoleList(state, payload) {
       state.roleList = payload
+    },
+    changeRoleCount(state, count) {
+      state.roleCount = count
     }
   },
   actions: {
@@ -36,7 +45,7 @@ const system: Module<ISystemState, IRootState> = {
 
       // 2.根据url请求数据
       const result = await pageListReq(url, payload.queryInfo)
-      const { list } = result.data
+      const { list, totalCount } = result.data
 
       // 3.提交到仓库中
       const _upperFirstLetter = (str: string) => {
@@ -45,6 +54,7 @@ const system: Module<ISystemState, IRootState> = {
         }
       }
       commit(`change${_upperFirstLetter(pageName)}List`, list)
+      commit(`change${_upperFirstLetter(pageName)}Count`, totalCount)
     }
   }
 }
