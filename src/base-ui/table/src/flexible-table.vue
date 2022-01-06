@@ -23,11 +23,12 @@
           :prop="column.prop"
           :label="column.label"
           :min-width="column.minWidth"
+          show-overflow-tooltip
           align="center"
         >
           <template #default="slotProps">
             <slot
-              :name="column.slotName"
+              :name="column.slotName ?? 'default'"
               :row="slotProps.row"
               :prop="column.prop"
             >

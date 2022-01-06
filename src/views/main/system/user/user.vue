@@ -5,11 +5,13 @@
       @resetBtnClick="handleResetBtnClick"
       @searchBtnClick="handleSearchBtnClick"
     ></page-search>
-    <page-list
-      :listConfig="listConfig"
-      pageName="users"
-      ref="pageListRef"
-    ></page-list>
+    <page-list :listConfig="listConfig" pageName="users" ref="pageListRef">
+      <template #status="{ row, prop }">
+        <el-button size="mini" :type="row[prop] == 1 ? 'success' : 'danger'">
+          {{ row[prop] == 1 ? '可用' : '禁用' }}
+        </el-button>
+      </template>
+    </page-list>
   </div>
 </template>
 
