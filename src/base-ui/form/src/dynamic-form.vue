@@ -60,7 +60,7 @@ export default defineComponent({
     },
     formItems: {
       type: Array as PropType<IFormItem[]>,
-      // 这里写成非箭头函数，setup中获取props类型有问题
+      // 这里写成非箭头函数的话，setup中获取props类型有问题
       default: () => []
     },
     colLayout: {

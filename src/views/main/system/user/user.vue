@@ -1,7 +1,15 @@
 <template>
   <div class="user">
-    <page-search :formConfig="formConfig"></page-search>
-    <page-list :listConfig="listConfig" pageName="users"></page-list>
+    <page-search
+      :formConfig="formConfig"
+      @resetBtnClick="handleResetBtnClick"
+      @searchBtnClick="handleSearchBtnClick"
+    ></page-search>
+    <page-list
+      :listConfig="listConfig"
+      pageName="users"
+      ref="pageListRef"
+    ></page-list>
   </div>
 </template>
 
@@ -14,6 +22,8 @@ import PageList from '@/components/page-list'
 import formConfig from './config/search.config'
 import listConfig from './config/list.config'
 
+import { usePageSearch } from '@/hooks/use-page-search'
+
 export default defineComponent({
   name: 'user',
   components: {
@@ -21,9 +31,15 @@ export default defineComponent({
     PageList
   },
   setup() {
+    const [pageListRef, handleSearchBtnClick, handleResetBtnClick] =
+      usePageSearch()
+
     return {
       listConfig,
-      formConfig
+      formConfig,
+      pageListRef,
+      handleResetBtnClick,
+      handleSearchBtnClick
     }
   }
 })

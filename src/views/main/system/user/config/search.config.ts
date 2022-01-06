@@ -4,28 +4,29 @@ const formConfig: IForm = {
   formItems: [
     {
       type: 'input',
-      label: 'id',
-      placeholder: '请输入id',
-      field: 'id'
-    },
-    {
-      type: 'input',
       label: '用户名',
       placeholder: '请输入用户名',
       field: 'name'
     },
     {
-      type: 'password',
-      label: '密码',
-      field: 'password'
+      type: 'input',
+      label: '真实姓名',
+      placeholder: '请输入真实姓名',
+      field: 'realname'
+    },
+    {
+      type: 'input',
+      label: '手机号',
+      placeholder: '请输入手机号',
+      field: 'cellphone'
     },
     {
       type: 'select',
-      label: '喜好',
-      field: 'hobbies',
+      label: '状态',
+      field: 'enable',
       options: [
-        { label: '篮球', value: 'basketball' },
-        { label: '足球', value: 'football' }
+        { label: '可用', value: 1 },
+        { label: '禁用', value: 0 }
       ],
       otherOptions: {
         style: 'width: 100%'
@@ -34,7 +35,7 @@ const formConfig: IForm = {
     {
       type: 'datepicker',
       label: '创建时间',
-      field: 'createdAt',
+      field: 'createAt',
       otherOptions: {
         type: 'daterange',
         'range-separator': '至',

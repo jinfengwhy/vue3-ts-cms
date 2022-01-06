@@ -37,7 +37,7 @@ import { FlexibleTable } from '@/base-ui'
 export default defineComponent({
   props: {
     listConfig: {
-      type: Array,
+      type: Object,
       required: true
     },
     pageName: {
@@ -50,19 +50,27 @@ export default defineComponent({
   },
   setup(props) {
     const store = useStore()
-    store.dispatch('system/pageListAction', {
-      pageName: props.pageName,
-      queryInfo: {
-        offset: 0,
-        size: 10
-      }
-    })
-    // 之所以放到计算属性中，是因为接口请求结果回来后，要触发数据的更新
+
+    // 抽取一个请求数据的方法
+    const getListAction = (queryParams = {}) => {
+      store.dispatch('system/pageListAction', {
+        pageName: props.pageName,
+        queryInfo: {
+          offset: 0,
+          size: 10,
+          ...queryParams
+        }
+      })
+    }
+    getListAction()
+
+    // 触发dom的更新
     const tableData = computed(() =>
       store.getters[`system/tableList`](props.pageName)
     )
 
     return {
+      getListAction,
       tableData
     }
   }

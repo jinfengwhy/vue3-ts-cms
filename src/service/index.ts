@@ -13,7 +13,7 @@ const jfwRequest = new JFWRequest({
       if (!config.headers) {
         config.headers = {}
       }
-      config.headers.authorization = token
+      config.headers.Authorization = `Bearer ${token}`
 
       return config
     },
