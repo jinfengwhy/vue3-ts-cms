@@ -8,7 +8,12 @@
         </div>
       </slot>
     </div>
-    <el-table :data="tableData" border style="width: 100%">
+    <el-table
+      :data="tableData"
+      border
+      style="width: 100%"
+      v-bind="childrenProps"
+    >
       <!-- 多选列 -->
       <template v-if="isShowSelectionColumn">
         <el-table-column type="selection" align="center"></el-table-column>
@@ -38,7 +43,7 @@
         </el-table-column>
       </template>
     </el-table>
-    <div class="footer">
+    <div v-if="isShowFooter" class="footer">
       <slot name="footer">
         <el-pagination
           :page-sizes="[10, 20, 30]"
@@ -76,6 +81,10 @@ export default defineComponent({
       type: Boolean,
       default: false
     },
+    isShowFooter: {
+      type: Boolean,
+      default: true
+    },
     totalCount: {
       type: Number,
       default: 100
@@ -83,6 +92,10 @@ export default defineComponent({
     page: {
       type: Object,
       default: () => ({ currentPage: 0, pageSize: 0 })
+    },
+    childrenProps: {
+      type: Object,
+      default: () => ({})
     }
   },
   emits: ['update:page'],

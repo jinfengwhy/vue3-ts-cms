@@ -2,7 +2,7 @@ import { Module } from 'vuex'
 
 import { userLoginReq, userInfoReq, userMenusReq } from '@/service/login/login'
 import localCache from '@/utils/cache'
-import { mapMenusToRoutes } from '@/utils/map-menus'
+import { mapMenusToRoutes, mapMenusToPermissions } from '@/utils/map-menus'
 import router from '@/router'
 import { IUserInfo } from '@/service/login/type'
 import { ILoginState } from './type'
@@ -14,7 +14,8 @@ const loginMoudle: Module<ILoginState, IRootState> = {
     return {
       token: '',
       userInfo: {},
-      userMenus: []
+      userMenus: [],
+      permissions: []
     }
   },
   mutations: {
@@ -32,6 +33,9 @@ const loginMoudle: Module<ILoginState, IRootState> = {
 
       // 2.将routes遍历添加到router（注意：main为/main这条顶层路由的name属性）
       routes.forEach((route) => router.addRoute('main', route))
+
+      const permissions = mapMenusToPermissions(userMenus)
+      state.permissions = permissions
     }
   },
   actions: {

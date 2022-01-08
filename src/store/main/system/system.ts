@@ -14,7 +14,8 @@ const system: Module<ISystemState, IRootState> = {
       roleList: [],
       roleCount: 0,
       goodsList: [],
-      goodsCount: 0
+      goodsCount: 0,
+      menuList: []
     }
   },
   getters: {
@@ -43,6 +44,9 @@ const system: Module<ISystemState, IRootState> = {
     },
     changeGoodsCount(state, count) {
       state.goodsCount = count
+    },
+    changeMenuList(state, menuList) {
+      state.menuList = menuList
     }
   },
   actions: {
@@ -62,7 +66,9 @@ const system: Module<ISystemState, IRootState> = {
         }
       }
       commit(`change${_upperFirstLetter(pageName)}List`, list)
-      commit(`change${_upperFirstLetter(pageName)}Count`, totalCount)
+      if (!['menu'].includes(pageName)) {
+        commit(`change${_upperFirstLetter(pageName)}Count`, totalCount)
+      }
     }
   }
 }

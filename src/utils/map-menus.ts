@@ -35,6 +35,23 @@ export function mapMenusToRoutes(userMenus: any[]): RouteRecordRaw[] {
   return routes
 }
 
+export function mapMenusToPermissions(userMenus: any[]) {
+  const btnPermissions: any[] = []
+
+  const _recurseGetPermissions = function (userMenus: any[]) {
+    for (const menu of userMenus) {
+      if (menu.type === 3) {
+        btnPermissions.push(menu.permission)
+      } else {
+        _recurseGetPermissions(menu.children ?? [])
+      }
+    }
+  }
+  _recurseGetPermissions(userMenus)
+
+  return btnPermissions
+}
+
 export function pathMapBreadcrumb(userMenus: any[], routePath: string): any {
   const breadcrumbs: IBreadcrumbItem[] = []
   pathMapMenu(userMenus, routePath, breadcrumbs)

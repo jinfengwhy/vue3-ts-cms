@@ -10,7 +10,9 @@
         <span class="title">{{ listConfig.title }}</span>
       </template>
       <template #header-btns>
-        <el-button size="medium" type="primary">新增用户</el-button>
+        <el-button v-if="isCreate" size="medium" type="primary"
+          >新增用户</el-button
+        >
       </template>
       <template #createAt="{ row, prop }">
         <span>{{ $filters.formatUtcTime(row[prop]) }}</span>
@@ -20,8 +22,12 @@
       </template>
       <template #operationColumn>
         <div class="handler-btns">
-          <el-button icon="el-icon-edit" type="text">编辑</el-button>
-          <el-button icon="el-icon-delete" type="text">删除</el-button>
+          <el-button v-if="isUpdate" icon="el-icon-edit" type="text"
+            >编辑</el-button
+          >
+          <el-button v-if="isDelete" icon="el-icon-delete" type="text"
+            >删除</el-button
+          >
         </div>
       </template>
       <template v-for="name in otherSlots" :key="name" #[name]="{ row, prop }">
@@ -36,6 +42,7 @@ import { defineComponent, ref, computed, watch } from 'vue'
 
 import { useStore } from '@/store'
 import { FlexibleTable } from '@/base-ui'
+import { usePermissions } from '@/hooks/use-permissions'
 
 export default defineComponent({
   props: {
@@ -53,6 +60,12 @@ export default defineComponent({
   },
   setup(props) {
     const store = useStore()
+
+    // 权限相关
+    const isCreate = usePermissions(props.pageName, 'create')
+    const isDelete = usePermissions(props.pageName, 'delete')
+    const isUpdate = usePermissions(props.pageName, 'update')
+    const isQuery = usePermissions(props.pageName, 'query')
 
     // 插槽的跨组件传递
     const commonSlots = [
@@ -79,6 +92,7 @@ export default defineComponent({
 
     // 抽取一个请求数据的方法
     const getListAction = (queryParams = {}) => {
+      if (!isQuery) return
       store.dispatch('system/pageListAction', {
         pageName: props.pageName,
         queryInfo: {
@@ -99,6 +113,9 @@ export default defineComponent({
     )
 
     return {
+      isCreate,
+      isDelete,
+      isUpdate,
       getListAction,
       tableData,
       totalCount,
