@@ -1,6 +1,6 @@
 import { Module } from 'vuex'
 
-import { pageListReq } from '@/service/main/system/system'
+import { pageListReq, pageDelDataReq } from '@/service/main/system/system'
 
 import { IRootState } from '@/store/type'
 import { ISystemState } from './type'
@@ -69,6 +69,12 @@ const system: Module<ISystemState, IRootState> = {
       if (!['menu'].includes(pageName)) {
         commit(`change${_upperFirstLetter(pageName)}Count`, totalCount)
       }
+    },
+
+    pageDelDataAction(context, payload) {
+      const { pageName, id } = payload
+      const url = `/${pageName}/${id}`
+      return pageDelDataReq(url)
     }
   }
 }

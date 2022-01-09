@@ -7,7 +7,11 @@
       <el-row>
         <template v-for="item in formItems" :key="item.label">
           <el-col v-bind="colLayout">
-            <el-form-item :label="item.label" class="el-form-item-custom">
+            <el-form-item
+              v-if="!item.isHidden"
+              :label="item.label"
+              :style="itemStyle"
+            >
               <template
                 v-if="item.type === 'input' || item.type === 'password'"
               >
@@ -77,6 +81,10 @@ export default defineComponent({
     labelWidth: {
       type: String,
       default: '80px'
+    },
+    itemStyle: {
+      type: Object,
+      default: () => ({ padding: '20px 10px' })
     }
   },
   emits: ['update:modelValue'],
@@ -102,8 +110,4 @@ export default defineComponent({
 })
 </script>
 
-<style scoped lang="less">
-.el-form-item-custom {
-  padding: 20px 10px;
-}
-</style>
+<style scoped lang="less"></style>

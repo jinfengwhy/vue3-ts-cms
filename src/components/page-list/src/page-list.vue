@@ -10,9 +10,14 @@
         <span class="title">{{ listConfig.title }}</span>
       </template>
       <template #header-btns>
-        <el-button v-if="isCreate" size="medium" type="primary"
-          >新增用户</el-button
+        <el-button
+          v-if="isCreate"
+          size="medium"
+          type="primary"
+          @click="handleNewClick"
         >
+          新增用户
+        </el-button>
       </template>
       <template #createAt="{ row, prop }">
         <span>{{ $filters.formatUtcTime(row[prop]) }}</span>
@@ -20,14 +25,24 @@
       <template #updateAt="{ row, prop }">
         <span>{{ $filters.formatUtcTime(row[prop]) }}</span>
       </template>
-      <template #operationColumn>
+      <template #operationColumn="{ row }">
         <div class="handler-btns">
-          <el-button v-if="isUpdate" icon="el-icon-edit" type="text"
-            >编辑</el-button
+          <el-button
+            v-if="isUpdate"
+            icon="el-icon-edit"
+            type="text"
+            @click="handleEditClick(row)"
           >
-          <el-button v-if="isDelete" icon="el-icon-delete" type="text"
-            >删除</el-button
+            编辑
+          </el-button>
+          <el-button
+            v-if="isDelete"
+            icon="el-icon-delete"
+            type="text"
+            @click="handleDeleteClick(row)"
           >
+            删除
+          </el-button>
         </div>
       </template>
       <template v-for="name in otherSlots" :key="name" #[name]="{ row, prop }">
@@ -58,16 +73,17 @@ export default defineComponent({
   components: {
     FlexibleTable
   },
-  setup(props) {
+  emits: ['newBtnClick', 'editBtnClick'],
+  setup(props, { emit }) {
     const store = useStore()
 
-    // 权限相关
+    // 1.获取用户权限
     const isCreate = usePermissions(props.pageName, 'create')
     const isDelete = usePermissions(props.pageName, 'delete')
     const isUpdate = usePermissions(props.pageName, 'update')
     const isQuery = usePermissions(props.pageName, 'query')
 
-    // 插槽的跨组件传递
+    // 2.界面插槽的获取（插槽的跨组件传递）
     const commonSlots = [
       'header-title',
       'header-btns',
@@ -81,7 +97,7 @@ export default defineComponent({
       )
       .map((item: any) => item.slotName)
 
-    // 双向绑定pageInfo
+    // 3.双向绑定pageInfo
     const pageInfo = ref({
       currentPage: 1,
       pageSize: 10
@@ -90,7 +106,7 @@ export default defineComponent({
       getListAction()
     })
 
-    // 抽取一个请求数据的方法
+    // 4.抽取一个请求页面数据的方法
     const getListAction = (queryParams = {}) => {
       if (!isQuery) return
       store.dispatch('system/pageListAction', {
@@ -104,13 +120,31 @@ export default defineComponent({
     }
     getListAction()
 
-    // 触发dom的更新
+    // 5.从vuex中获取数据
     const tableData = computed(() =>
       store.getters[`system/tableList`](props.pageName)
     )
     const totalCount = computed(() =>
       store.getters[`system/totalCount`](props.pageName)
     )
+
+    // 6.删除/新增/编辑的逻辑
+    const handleDeleteClick = (row: any) => {
+      store
+        .dispatch('system/pageDelDataAction', {
+          pageName: props.pageName,
+          id: row.id
+        })
+        .then(() => {
+          getListAction()
+        })
+    }
+    const handleNewClick = () => {
+      emit('newBtnClick')
+    }
+    const handleEditClick = (item: any) => {
+      emit('editBtnClick', item)
+    }
 
     return {
       isCreate,
@@ -120,7 +154,10 @@ export default defineComponent({
       tableData,
       totalCount,
       pageInfo,
-      otherSlots
+      otherSlots,
+      handleDeleteClick,
+      handleNewClick,
+      handleEditClick
     }
   }
 })

@@ -3,6 +3,8 @@ import { ISystemState } from './main/system/type'
 
 export interface IRootState {
   counter: number
+  depList: any[]
+  roleList: any[]
 }
 
 export interface IRootWithModule {
