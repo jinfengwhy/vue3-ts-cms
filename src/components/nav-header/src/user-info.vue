@@ -36,8 +36,8 @@ export default defineComponent({
 
     const router = useRouter()
     const handleLogoutClick = () => {
-      localCache.clear()
-      router.push('/login')
+      localCache.deleteItem('token')
+      router.push('/main')
     }
     return {
       name,

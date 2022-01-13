@@ -53,7 +53,6 @@ const store = createStore<IRootState>({
 // 将缓存中的信息加载到vuex中
 export function setupStore(): void {
   store.dispatch('login/loadLoginAction')
-  store.dispatch('getInitialDataAction')
 }
 
 // 定义自己的useStore函数

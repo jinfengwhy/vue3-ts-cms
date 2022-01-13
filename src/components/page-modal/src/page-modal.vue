@@ -11,7 +11,7 @@
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="hideDialog">取消</el-button>
-          <el-button type="primary" @click="dialogVisible = false">
+          <el-button type="primary" @click="handleSureBtnClick">
             确定
           </el-button>
         </span>
@@ -26,6 +26,8 @@ import { defineComponent, ref, watch } from 'vue'
 import DynamicForm from '@/base-ui/form'
 import dialogConfig from '@/views/main/system/user/config/dialog.config'
 
+import { useStore } from '@/store'
+
 export default defineComponent({
   components: {
     DynamicForm
@@ -38,6 +40,10 @@ export default defineComponent({
     dialogForm: {
       type: Object,
       default: () => ({})
+    },
+    pageName: {
+      type: String,
+      required: true
     }
   },
   setup(props) {
@@ -61,11 +67,52 @@ export default defineComponent({
       }
     )
 
+    // 3.点击确定按钮的事件处理
+    const store = useStore()
+    const handleSureBtnClick = () => {
+      // a:隐藏对话框
+      hideDialog()
+      // b:临时定义新增修改成功后触发页面刷新的函数
+      const _getListAction = () => {
+        store.dispatch('system/pageListAction', {
+          pageName: props.pageName,
+          queryInfo: {
+            offset: 0,
+            size: 10
+          }
+        })
+      }
+      // c:就确定按钮的click事件做处理
+      if (Object.keys(props.dialogForm).length) {
+        // 编辑
+        store
+          .dispatch('system/pageEditDataAction', {
+            pageName: props.pageName,
+            editData: dialogItems.value,
+            id: props.dialogForm.id
+          })
+          .then(() => {
+            _getListAction()
+          })
+      } else {
+        // 新增
+        store
+          .dispatch('system/pageAddDataAction', {
+            pageName: props.pageName,
+            newData: dialogItems.value
+          })
+          .then(() => {
+            _getListAction()
+          })
+      }
+    }
+
     return {
       dialogVisible,
       showDialog,
       hideDialog,
-      dialogItems
+      dialogItems,
+      handleSureBtnClick
     }
   }
 })

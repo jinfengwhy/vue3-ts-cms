@@ -39,12 +39,13 @@ const loginMoudle: Module<ILoginState, IRootState> = {
     }
   },
   actions: {
-    async userLoginAction({ commit }, payload: IUserInfo) {
+    async userLoginAction({ commit, dispatch }, payload: IUserInfo) {
       // 1.验证用户名和密码
       const loginResult = await userLoginReq(payload)
       const { id, token } = loginResult.data
       localCache.setItem('token', token)
       commit('changeToken', token)
+      dispatch('getInitialDataAction', null, { root: true })
 
       // 2.请求用户基本信息
       const userInfoResult = await userInfoReq(id)
@@ -63,10 +64,12 @@ const loginMoudle: Module<ILoginState, IRootState> = {
         path: '/main'
       })
     },
-    loadLoginAction({ commit }) {
+    loadLoginAction({ commit, dispatch }) {
       const token = localCache.getItem('token')
       if (token) {
         commit('changeToken', token)
+        // 确保拿到token之后，我们再去请求权限相关的信息（否则可能请求时token还没获取）
+        dispatch('getInitialDataAction', null, { root: true })
       }
 
       const userInfo = localCache.getItem('userInfo')

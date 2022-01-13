@@ -21,6 +21,7 @@
     <page-modal
       :dialogConfig="dialogConfigRef"
       :dialogForm="dialogForm"
+      pageName="users"
       ref="pageModalRef"
     ></page-modal>
   </div>

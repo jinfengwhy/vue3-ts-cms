@@ -19,6 +19,7 @@
                   :placeholder="item.placeholder"
                   v-bind="item.otherOptions"
                   v-model="formData[item.field]"
+                  :show-password="item.type === 'password'"
                 ></el-input>
               </template>
               <template v-else-if="item.type === 'select'">

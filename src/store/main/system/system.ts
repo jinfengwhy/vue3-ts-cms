@@ -1,6 +1,11 @@
 import { Module } from 'vuex'
 
-import { pageListReq, pageDelDataReq } from '@/service/main/system/system'
+import {
+  pageListReq,
+  pageDelDataReq,
+  pageAddDataReq,
+  pageEditDataReq
+} from '@/service/main/system/system'
 
 import { IRootState } from '@/store/type'
 import { ISystemState } from './type'
@@ -75,6 +80,18 @@ const system: Module<ISystemState, IRootState> = {
       const { pageName, id } = payload
       const url = `/${pageName}/${id}`
       return pageDelDataReq(url)
+    },
+
+    pageAddDataAction(context, payload) {
+      const { pageName, newData: data } = payload
+      const url = `/${pageName}`
+      return pageAddDataReq(url, data)
+    },
+
+    pageEditDataAction(context, payload) {
+      const { pageName, id, editData: data } = payload
+      const url = `/${pageName}/${id}`
+      return pageEditDataReq(url, data)
     }
   }
 }

@@ -14,3 +14,17 @@ export function pageDelDataReq(url: string) {
     url: url
   })
 }
+
+export function pageAddDataReq(url: string, data: any) {
+  return jfwRequest.post<IDataType>({
+    url,
+    data
+  })
+}
+
+export function pageEditDataReq(url: string, data: any) {
+  return jfwRequest.patch<IDataType>({
+    url,
+    data
+  })
+}
