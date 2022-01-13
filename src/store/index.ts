@@ -11,7 +11,8 @@ const store = createStore<IRootState>({
     return {
       counter: 100,
       depList: [],
-      roleList: []
+      roleList: [],
+      menuList: []
     }
   },
   // 第一个入参：state，第二个入参：payload
@@ -21,12 +22,15 @@ const store = createStore<IRootState>({
     },
     changeRoleList(state, list) {
       state.roleList = list
+    },
+    changeMenuList(state, list) {
+      state.menuList = list
     }
   },
   // 第一个入参：context(store实例)，第二个入参：payload
   actions: {
     async getInitialDataAction({ commit }) {
-      // 1.请求部门和角色的列表信息
+      // 1.请求部门、角色、菜单、的列表信息
       const depResult = await pageListReq(`/department/list`, {
         offset: 0,
         size: 100
@@ -37,10 +41,16 @@ const store = createStore<IRootState>({
         size: 100
       })
       const { list: roleList } = roleResult.data
+      const menuResult = await pageListReq(`/menu/list`, {
+        offset: 0,
+        size: 100
+      })
+      const { list: menuList } = menuResult.data
 
       // 2.提交到store中
       commit('changeDepList', depList)
       commit('changeRoleList', roleList)
+      commit('changeMenuList', menuList)
     }
   },
   // 模块

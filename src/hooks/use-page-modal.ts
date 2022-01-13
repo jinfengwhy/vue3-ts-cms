@@ -2,7 +2,7 @@ import { ref } from 'vue'
 
 import PageModal from '@/components/page-modal'
 
-type cbFn = () => void
+type cbFn = (item?: any) => void
 
 export function usePageModal(newCbFn?: cbFn, editCbFn?: cbFn) {
   const dialogForm = ref({})
@@ -16,7 +16,7 @@ export function usePageModal(newCbFn?: cbFn, editCbFn?: cbFn) {
   const handleEditBtnClick = (item: any) => {
     pageModalRef.value?.showDialog()
     dialogForm.value = { ...item }
-    editCbFn && editCbFn()
+    editCbFn && editCbFn(item)
   }
 
   return [dialogForm, pageModalRef, handleNewBtnClick, handleEditBtnClick]

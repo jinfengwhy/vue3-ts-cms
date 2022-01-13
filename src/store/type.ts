@@ -5,6 +5,7 @@ export interface IRootState {
   counter: number
   depList: any[]
   roleList: any[]
+  menuList: any[]
 }
 
 export interface IRootWithModule {

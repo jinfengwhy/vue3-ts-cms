@@ -1,5 +1,6 @@
 const listConfig = {
   title: '菜单列表',
+  newBtnTitle: '新建菜单',
   isShowIndexColumn: true,
   isShowSelectionColumn: true,
   isShowFooter: false,

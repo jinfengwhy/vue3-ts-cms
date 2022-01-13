@@ -1,5 +1,6 @@
 const listConfig = {
   title: '用户列表',
+  newBtnTitle: '新建用户',
   isShowIndexColumn: false,
   isShowSelectionColumn: false,
   propList: [

@@ -16,7 +16,7 @@
           type="primary"
           @click="handleNewClick"
         >
-          新增用户
+          {{ listConfig.newBtnTitle }}
         </el-button>
       </template>
       <template #createAt="{ row, prop }">

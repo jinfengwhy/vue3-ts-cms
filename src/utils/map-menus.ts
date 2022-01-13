@@ -79,4 +79,21 @@ export function pathMapMenu(
   }
 }
 
+export function mapMenusToLeafKeys(userMenus: any[]) {
+  const leafKeys: number[] = []
+
+  const _recurseGetLeafKeys = (userMenus: any[]) => {
+    for (const menu of userMenus) {
+      if (menu.children) {
+        _recurseGetLeafKeys(menu.children)
+      } else {
+        leafKeys.push(menu.id)
+      }
+    }
+  }
+  _recurseGetLeafKeys(userMenus)
+
+  return leafKeys
+}
+
 export { firstMenu }

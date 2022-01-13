@@ -8,6 +8,7 @@
       destroy-on-close
     >
       <dynamic-form v-bind="dialogConfig" v-model="dialogItems"></dynamic-form>
+      <slot></slot>
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="hideDialog">取消</el-button>
@@ -24,8 +25,6 @@
 import { defineComponent, ref, watch } from 'vue'
 
 import DynamicForm from '@/base-ui/form'
-import dialogConfig from '@/views/main/system/user/config/dialog.config'
-
 import { useStore } from '@/store'
 
 export default defineComponent({
@@ -44,6 +43,10 @@ export default defineComponent({
     pageName: {
       type: String,
       required: true
+    },
+    otherInfo: {
+      type: Object,
+      default: () => ({})
     }
   },
   setup(props) {
@@ -61,7 +64,7 @@ export default defineComponent({
     watch(
       () => props.dialogForm,
       (newVal) => {
-        for (const item of dialogConfig.formItems) {
+        for (const item of props.dialogConfig.formItems) {
           dialogItems.value[item.field] = newVal[item.field]
         }
       }
@@ -88,7 +91,7 @@ export default defineComponent({
         store
           .dispatch('system/pageEditDataAction', {
             pageName: props.pageName,
-            editData: dialogItems.value,
+            editData: { ...dialogItems.value, ...props.otherInfo },
             id: props.dialogForm.id
           })
           .then(() => {
@@ -99,7 +102,7 @@ export default defineComponent({
         store
           .dispatch('system/pageAddDataAction', {
             pageName: props.pageName,
-            newData: dialogItems.value
+            newData: { ...dialogItems.value, ...props.otherInfo }
           })
           .then(() => {
             _getListAction()

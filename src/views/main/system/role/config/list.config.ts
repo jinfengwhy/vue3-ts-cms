@@ -1,7 +1,9 @@
 const listConfig = {
   title: '角色列表',
+  newBtnTitle: '新建角色',
   isShowIndexColumn: true,
   isShowSelectionColumn: true,
+  isShowFooter: false,
   propList: [
     { prop: 'name', label: '角色名称', minWidth: '120' },
     { prop: 'intro', label: '权限介绍', minWidth: '120' },

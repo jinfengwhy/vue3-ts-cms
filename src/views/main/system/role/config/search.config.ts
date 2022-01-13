@@ -17,7 +17,7 @@ const formConfig: IForm = {
     {
       type: 'datepicker',
       label: '创建时间',
-      field: 'createdAt',
+      field: 'createAt',
       otherOptions: {
         type: 'daterange',
         'range-separator': '至',
