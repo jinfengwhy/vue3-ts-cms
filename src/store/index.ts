@@ -4,6 +4,7 @@ import { pageListReq } from '@/service/main/system/system'
 
 import login from './login/login'
 import system from './main/system/system'
+import analysis from './main/analysis/analysis'
 import { IRootState, IStateType } from './type'
 
 const store = createStore<IRootState>({
@@ -56,7 +57,8 @@ const store = createStore<IRootState>({
   // 模块
   modules: {
     login,
-    system
+    system,
+    analysis
   }
 })
 
